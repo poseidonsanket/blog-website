@@ -20,11 +20,18 @@ blogRouter.use("/*", async (c, next) => {
 
   const user = await verify(token, c.env.JWT_SECRET);
 
-  if (user) {
-    //@ts-ignore
-    c.set("userId", user.id);
-    await next();
-  } else {
+  try {
+    if (user) {
+      //@ts-ignore
+      c.set("userId", user.id);
+      await next();
+    } else {
+      c.status(403);
+      return c.json({
+        msg: "Invalid Authorization",
+      });
+    }
+  } catch (e) {
     c.status(403);
     return c.json({
       msg: "Invalid Authorization",

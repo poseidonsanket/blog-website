@@ -1,41 +1,56 @@
-import { Appbar } from "../components/Appbar"
-import { BlogCard } from "../components/BlogCard"
+import { useEffect } from "react";
+import { Appbar } from "../components/Appbar";
+import { BlogCard } from "../components/BlogCard";
 import { BlogSkeleton } from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
-    const { loading, blogs } = useBlogs();
+  const { loading, blogs } = useBlogs();
+  const navigate = useNavigate();
 
-    if (loading) {
-        return <div>
-            <Appbar /> 
-            <div  className="flex justify-center">
-                <div>
-                    <BlogSkeleton />
-                    <BlogSkeleton />
-                    <BlogSkeleton />
-                    <BlogSkeleton />
-                    <BlogSkeleton />
-                </div>
-            </div>
-        </div>
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signup");
     }
+  }, []);
 
-
-    return <div> 
+  if (loading) {
+    return (
+      <div>
         <Appbar />
-        <div  className="flex justify-center">
-            <div>
-                {blogs.map(blog => <BlogCard
-                    id={blog.id}
-                    authorName={blog.author.name || "Anonymous"}
-                    title={blog.title}
-                    content={blog.content}
-                    publishedDate={"2nd Feb 2024"}
-                />)}
-            </div>
+        <div className="flex justify-center">
+          <div>
+            <BlogSkeleton />
+            <BlogSkeleton />
+            <BlogSkeleton />
+            <BlogSkeleton />
+            <BlogSkeleton />
+          </div>
         </div>
-    </div>
-}
+      </div>
+    );
+  }
 
-export default Blogs
+  return (
+    <div>
+      <Appbar />
+      <div className="flex justify-center">
+        <div>
+          {blogs.map((blog) => (
+            <BlogCard
+              id={blog.id}
+              authorName={blog.author.name || "Anonymous"}
+              title={blog.title}
+              content={blog.content}
+              publishedDate={"2nd Feb 2024"}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Blogs;

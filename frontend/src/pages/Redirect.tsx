@@ -5,7 +5,7 @@ const Redirect = () => {
   const navigate = useNavigate();
   useEffect(() => {
     navigate("/signup");
-  });
+  },[]);
 
   return (
     <div className="h-screen w-screen flex justify-center items-center">

@@ -13,7 +13,7 @@ export const Appbar = () => {
         to={"/blogs"}
         className="flex flex-col justify-center cursor-pointer font-bold text-2xl"
       >
-        Medium
+        Mingle
       </Link>
       <div>
         <Link to={`/publish`}>
